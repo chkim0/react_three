@@ -1,9 +1,9 @@
 import './scss/style.scss';
-import { Canvas, useFrame, extend, useThree, useLoader } from 'react-three-fiber';
+import { Canvas, useFrame, useLoader } from 'react-three-fiber';
 import { useRef, Suspense } from 'react';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import * as THREE from 'three';
-extend({ OrbitControls });
+import Orbit from './components/Orbit';
+
 
 const handlePointerDown = e => {
 	e.object.active = true;
@@ -31,10 +31,6 @@ const scaleDown = (object) => {
 	object.scale.z = 1;
 }
 
-const Orbit = () => {
-	const { camera, gl } = useThree();
-	return <orbitControls args={[camera, gl.domElement]} />
-}
 const Bulb = (props) => {
 	return (
 		<mesh {...props}>
@@ -68,10 +64,21 @@ const Floor = (props) => {
 	)
 }
 function App() {
+	const handleClick = e => {
+		if (!window.activeMesh) return;
+		window.activeMesh.material.color = new THREE.Color(e.target.style.background);
+	}
 	return (
 		<figure>
+
+			<article className="colorPicker">
+				<div style={{ background: 'blue' }} onClick={handleClick}></div>
+				<div style={{ background: 'red' }} onClick={handleClick}></div>
+				<div style={{ background: 'green' }} onClick={handleClick}></div>
+				<div style={{ background: 'transparent' }} onClick={handleClick}></div>
+			</article>
+
 			<Canvas
-				//그림자 설정시 필요함
 				shadowMap
 				style={{ background: '#111' }}
 				camera={{ position: [3, 5, 3] }}>
