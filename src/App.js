@@ -1,13 +1,17 @@
 import './scss/style.scss';
 import { Canvas, useFrame, extend, useThree, useLoader } from 'react-three-fiber';
-//Suspense: 리액트 컴포넌트 안쪽에서 비동기로 실행되는 구문을 동기화
 import { useRef, Suspense } from 'react';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import * as THREE from 'three';
 extend({ OrbitControls });
 
 const handlePointerDown = e => {
-	console.log(e);
+	e.object.active = true;
+	if (window.activeMesh) {
+		scaleDown(window.activeMesh);
+		window.activeMesh.active = false;
+	}
+	window.activeMesh = e.object;
 }
 const handlePointerEnter = e => {
 	e.object.scale.x = 1.5;
@@ -15,9 +19,16 @@ const handlePointerEnter = e => {
 	e.object.scale.z = 1.5;
 }
 const handlePointerLeave = e => {
-	e.object.scale.x = 1;
-	e.object.scale.y = 1;
-	e.object.scale.z = 1;
+	if (!e.object.active) {
+		e.object.scale.x = 1;
+		e.object.scale.y = 1;
+		e.object.scale.z = 1;
+	}
+}
+const scaleDown = (object) => {
+	object.scale.x = 1;
+	object.scale.y = 1;
+	object.scale.z = 1;
 }
 
 const Orbit = () => {
@@ -70,7 +81,10 @@ function App() {
 				<ambientLight intensity={0.2} />
 				<Bulb position={[0, 3, 0]} />
 				<Suspense fallback={null}>
-					<Box position={[-1, 2, 1]} />
+					<Box position={[-2, 1, 0]} />
+				</Suspense>
+				<Suspense fallback={null}>
+					<Box position={[2, 1, 0]} />
 				</Suspense>
 				<Floor position={[0, -0.5, 0]} />
 			</Canvas>
