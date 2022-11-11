@@ -6,6 +6,20 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import * as THREE from 'three';
 extend({ OrbitControls });
 
+const handlePointerDown = e => {
+	console.log(e);
+}
+const handlePointerEnter = e => {
+	e.object.scale.x = 1.5;
+	e.object.scale.y = 1.5;
+	e.object.scale.z = 1.5;
+}
+const handlePointerLeave = e => {
+	e.object.scale.x = 1;
+	e.object.scale.y = 1;
+	e.object.scale.z = 1;
+}
+
 const Orbit = () => {
 	const { camera, gl } = useThree();
 	return <orbitControls args={[camera, gl.domElement]} />
@@ -28,7 +42,7 @@ const Box = (props) => {
 		ref.current.rotation.y += 0.02;
 	});
 	return (
-		<mesh ref={ref} {...props} castShadow receiveShadow >
+		<mesh ref={ref} {...props} castShadow receiveShadow onPointerDown={handlePointerDown} onPointerEnter={handlePointerEnter} onPointerLeave={handlePointerLeave} >
 			<boxBufferGeometry />
 			<meshPhysicalMaterial map={texture} />
 		</mesh>
