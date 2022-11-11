@@ -38,13 +38,13 @@ function App() {
 		<figure>
 			<Canvas
 				style={{ background: '#111' }}
-				camera={{ position: [7, 7, 7] }}>
+				camera={{ position: [3, 3, 3] }}>
 				<axesHelper args={[6]} />
 				<Orbit />
 
-				<ambientLight intensity={0.3} />
-				<Box position={[0, 4, 0]} />
-				<Floor position={[0, 0, 0]} />
+				<ambientLight intensity={0.2} />
+				<Box position={[-1, 1, 2]} />
+				<Floor position={[0, -0.5, 0]} />
 			</Canvas>
 		</figure>
 	);
